@@ -3,25 +3,36 @@ package com.example.cryptofile;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
 
 public class UserNavigationController {
 
-    @FXML
-    private StackPane contentPane;
+    @FXML private StackPane contentPane;
+    @FXML private Label usernameLabel;
+
+    private String currentUser;
 
     @FXML
-    public void initialize() {
+    public void initialize(UserInfo userInfo) {
+        currentUser = userInfo.getUsername();
+        usernameLabel.setText(currentUser);
         loadView("userHome.fxml");
     }
+
 
     private void loadView(String fxmlFile) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
             Parent view = loader.load();
             contentPane.getChildren().setAll(view);
+
+            if(fxmlFile.equals("userHome.fxml")){
+                UserHomeController controller = loader.getController();
+                controller.setName(currentUser);
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -51,6 +62,11 @@ public class UserNavigationController {
     public void loadProfile() {
         loadView("userProfile.fxml");
     }
+    @FXML
+    public void handleLogout() {
+        // Implement logout logic here
+    }
+
 
 
 }

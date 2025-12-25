@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Objects;
 
 
 public class LoginController {
@@ -78,10 +79,10 @@ public class LoginController {
             UserInfo validUser = userDAO.loginVerify(user, pass);
             if (validUser != null) {
                 if(validUser.getRole().equals("admin")) {
-                    switchToAdminHomeScene(event);
+                    switchToAdminHomeScene(event, validUser);
                 }
                 else {
-                    switchToUserHomeScene(event);
+                    switchToUserHomeScene(event, validUser);
                 }
             } else {
                 errorMsg.setText("Invalid username or password");
@@ -106,9 +107,13 @@ public class LoginController {
 
     // Switch to user home scene
     @FXML
-    public void switchToUserHomeScene(ActionEvent event) throws IOException {
+    public void switchToUserHomeScene(ActionEvent event, UserInfo userInfo) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("userNavigation.fxml"));
         Parent root = loader.load();
+
+        UserNavigationController controller = loader.getController();
+        controller.initialize(userInfo);
+
         stage=(Stage)((Node)event.getSource()).getScene().getWindow();
         scene=new Scene(root);
         stage.setTitle("CryptoFile");
@@ -118,7 +123,7 @@ public class LoginController {
 
     // Switch to admin home scene
     @FXML
-    public void switchToAdminHomeScene(ActionEvent event) throws IOException {
+    public void switchToAdminHomeScene(ActionEvent event, UserInfo userInfo) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("adminHome.fxml"));
         Parent root = loader.load();
         stage=(Stage)((Node)event.getSource()).getScene().getWindow();
@@ -130,7 +135,8 @@ public class LoginController {
 
     // Apply CSS styles to the scene
     public void setScene (Scene scene) {
-        scene.getStylesheets().add(getClass().getResource("/styles/login.css").toExternalForm());
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/styles/login.css")).toExternalForm());
     }
+
 
 }
