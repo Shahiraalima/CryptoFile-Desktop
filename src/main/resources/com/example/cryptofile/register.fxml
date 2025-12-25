@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="registerRoot" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cryptofile.RegisterController">
+<BorderPane fx:id="registerRoot" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cryptofile.RegisterController">
     <center>
         <StackPane fx:id="registerPane" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <VBox fx:id="registerBox" alignment="CENTER" maxHeight="500.0" maxWidth="450.0" prefHeight="500.0" prefWidth="450.0" spacing="35.0">

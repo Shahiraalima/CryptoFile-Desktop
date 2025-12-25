@@ -16,6 +16,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 
 public class LoginController {
@@ -40,6 +42,17 @@ public class LoginController {
 
     @FXML private Stage stage;
     @FXML private Scene scene;
+
+
+    @FXML
+    public void initialize() {
+        try {
+            Connection conn = DatabaseConnection.getConnection();
+            System.out.print("Connected to database successfully");
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to connect to database", e);
+        }
+    }
 
 
     @FXML

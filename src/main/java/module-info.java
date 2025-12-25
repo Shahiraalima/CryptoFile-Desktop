@@ -12,6 +12,7 @@ module com.example.cryptofile {
     requires com.almasb.fxgl.all;
     requires javafx.base;
     requires javafx.graphics;
+    requires java.sql;
 
     opens com.example.cryptofile to javafx.fxml;
     exports com.example.cryptofile;
