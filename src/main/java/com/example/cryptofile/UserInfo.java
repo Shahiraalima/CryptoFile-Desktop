@@ -9,6 +9,7 @@ public class UserInfo {
 
     public UserInfo() {}
 
+    // Constructor for login verification
     public UserInfo(String username, String password, String role) {
         this.username = username;
         this.password = password;

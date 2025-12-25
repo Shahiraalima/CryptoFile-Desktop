@@ -37,6 +37,8 @@ public class RegisterController {
     @FXML private Label validMsg;
     @FXML private Hyperlink loginLink;
 
+
+    // Initialize method to set up listeners for real-time validation for username, email, and password fields
     @FXML
     public void initialize(){
         loginLink.setVisible(false);
@@ -94,9 +96,10 @@ public class RegisterController {
                 }
             }
         });
-
     }
 
+
+    // Handle registration logic upon clicking register button
     @FXML
     public void HandleRegister(ActionEvent event) throws IOException {
         String username = userField.getText();
@@ -130,6 +133,7 @@ public class RegisterController {
         }
     }
 
+    // Toggle visibility for password field
     @FXML
     public void togglePasswordVisibility(ActionEvent event) throws IOException {
         showPasswordField.textProperty().bindBidirectional(passwordField.textProperty());
@@ -151,6 +155,7 @@ public class RegisterController {
         }
     }
 
+    // Toggle visibility for confirm password field
     @FXML
     public void toggleConfirmPasswordVisibility(ActionEvent event) throws IOException {
         confirmShow.textProperty().bindBidirectional(confirmPassField.textProperty());
@@ -173,6 +178,7 @@ public class RegisterController {
     }
 
 
+    // Navigate back to log in scene upon clicking back button and the back to login hyperlink upon registration successfully
     @FXML
     public void switchToLoginScene(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("login.fxml"));
@@ -184,6 +190,7 @@ public class RegisterController {
         stage.show();
     }
 
+    // Add CSS to the scene
     public void setScene(Scene scene) {
         scene.getStylesheets().add(getClass().getResource("/styles/register.css").toExternalForm());
     }

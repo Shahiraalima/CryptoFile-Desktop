@@ -43,6 +43,7 @@ public class LoginController {
     @FXML private Scene scene;
 
 
+    // Toggle password visibility
     @FXML
     public void togglePasswordVisibility(ActionEvent event) throws IOException {
         showPassword.textProperty().bindBidirectional(password.textProperty());
@@ -63,6 +64,8 @@ public class LoginController {
         }
     }
 
+
+    // Handle login action and verify credentials
     @FXML
     public void HandleLogin(ActionEvent event) throws IOException {
         String user = username.getText();
@@ -87,6 +90,7 @@ public class LoginController {
     }
 
 
+    // Switch to registration scene
     @FXML
     public void switchToRegisterScene(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("register.fxml"));
@@ -100,9 +104,10 @@ public class LoginController {
         stage.show();
     }
 
+    // Switch to user home scene
     @FXML
     public void switchToUserHomeScene(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("userHome.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("userNavigation.fxml"));
         Parent root = loader.load();
         stage=(Stage)((Node)event.getSource()).getScene().getWindow();
         scene=new Scene(root);
@@ -111,6 +116,7 @@ public class LoginController {
         stage.show();
     }
 
+    // Switch to admin home scene
     @FXML
     public void switchToAdminHomeScene(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("adminHome.fxml"));
@@ -122,6 +128,7 @@ public class LoginController {
         stage.show();
     }
 
+    // Apply CSS styles to the scene
     public void setScene (Scene scene) {
         scene.getStylesheets().add(getClass().getResource("/styles/login.css").toExternalForm());
     }

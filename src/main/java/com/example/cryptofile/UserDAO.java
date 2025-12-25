@@ -4,6 +4,7 @@ import java.sql.*;
 
 
 public class UserDAO {
+
     public UserDAO() {
         try {
             Connection conn = DatabaseConnection.getConnection();
@@ -13,6 +14,7 @@ public class UserDAO {
         }
     }
 
+    // Verify user login credentials and return UserInfo if valid
     public UserInfo loginVerify(String username, String password) {
         String query = "SELECT * FROM users WHERE username = ? AND password = ?";
         try (Connection conn = DatabaseConnection.getConnection();
@@ -36,6 +38,7 @@ public class UserDAO {
         }
     }
 
+    // Register a new user in the database
     public boolean registerUser(UserInfo user) {
         String query = "INSERT INTO users (username, email, password, roles) VALUES (?, ?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
@@ -61,6 +64,7 @@ public class UserDAO {
     }
 
 
+    // Check if username already exists in the database
     public boolean checkUsernameExists(String username) {
         String query = "SELECT 1 FROM users WHERE username = ?";
         try(Connection conn = DatabaseConnection.getConnection();
@@ -76,6 +80,7 @@ public class UserDAO {
         return false;
     }
 
+    // Check if email already exists in the database
     public boolean checkEmailExists(String email) {
         String query = "SELECT 1 FROM users WHERE email = ?";
         try(Connection conn = DatabaseConnection.getConnection();
@@ -91,6 +96,7 @@ public class UserDAO {
         return false;
     }
 
+    // Check password strength
     public String checkPasswordStrength(String password) {
         if (password.length() < 8) {
             return "Password must be at least 8 characters long.";
