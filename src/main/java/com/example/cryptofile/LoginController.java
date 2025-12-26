@@ -68,12 +68,10 @@ public class LoginController {
     }
 
 
-    private String user;
-
     // Handle login action and verify credentials
     @FXML
     public void HandleLogin(ActionEvent event) throws IOException {
-        user = username.getText();
+        String user = username.getText();
         String pass = password.getText();
 
         if (user.isEmpty() || pass.isEmpty()) {
@@ -83,9 +81,9 @@ public class LoginController {
             UserInfo validUser = userDAO.loginVerify(user, pass);
             if (validUser != null) {
                 if (validUser.getRole().equals("admin")) {
-                    switchToAdminHomeScene(event, validUser);
+                    switchToAdminHomeScene(event);
                 } else {
-                    switchToUserHomeScene(event, validUser);
+                    switchToUserHomeScene(event);
                 }
             } else {
                 errorMsg.setText("Invalid username or password");
@@ -97,44 +95,22 @@ public class LoginController {
     // Switch to registration scene
     @FXML
     public void switchToRegisterScene(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("register.fxml"));
-        Parent root = loader.load();
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        RegisterController controller = loader.getController();
-        controller.setScene(scene);
-        stage.setTitle("CryptoFile");
-        stage.setScene(scene);
-        stage.show();
+        Shared shared = new Shared();
+        shared.switchScene(event, "register.fxml");
     }
 
     // Switch to user home scene
     @FXML
-    public void switchToUserHomeScene(ActionEvent event, UserInfo userInfo) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("userNavigation.fxml"));
-        Parent root = loader.load();
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setTitle("CryptoFile");
-        stage.setScene(scene);
-        stage.show();
+    public void switchToUserHomeScene(ActionEvent event) throws IOException {
+        Shared shared = new Shared();
+        shared.switchScene(event, "userNavigation.fxml");
     }
 
     // Switch to admin home scene
     @FXML
-    public void switchToAdminHomeScene(ActionEvent event, UserInfo userInfo) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("adminHome.fxml"));
-        Parent root = loader.load();
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setTitle("CryptoFile");
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    // Apply CSS styles to the scene
-    public void setScene(Scene scene) {
-        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/styles/login.css")).toExternalForm());
+    public void switchToAdminHomeScene(ActionEvent event) throws IOException {
+        Shared shared = new Shared();
+        shared.switchScene(event, "adminHome.fxml");
     }
 
 }

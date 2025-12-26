@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cryptofile.RegisterController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@styles/register.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cryptofile.RegisterController">
     <center>
         <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <VBox alignment="CENTER" maxHeight="500.0" maxWidth="450.0" prefHeight="500.0" prefWidth="450.0" spacing="35.0">
@@ -49,31 +49,30 @@
                 </VBox>
                 <VBox prefHeight="200.0" prefWidth="100.0">
                     <VBox.margin>
-                        <Insets top="-10.0"/>
+                        <Insets top="-10.0" />
                     </VBox.margin>
-                    <Label fx:id="requirementsMsg" text=" "/>
+                    <Label fx:id="requirementsMsg" text=" " />
                     <StackPane prefHeight="42.0" prefWidth="100.0">
                         <TextField fx:id="showPasswordField" promptText="Enter your password">
                             <font>
-                                <Font size="16.0"/>
+                                <Font size="16.0" />
                             </font>
                         </TextField>
                         <PasswordField fx:id="passwordField" promptText="Enter your password">
                             <font>
-                                <Font size="16.0"/>
+                                <Font size="16.0" />
                             </font>
                         </PasswordField>
-                        <ToggleButton fx:id="eyeIcon" mnemonicParsing="false" onAction="#togglePasswordVisibility"
-                                      text="👁" StackPane.alignment="CENTER_RIGHT">
+                        <ToggleButton fx:id="eyeIcon" mnemonicParsing="false" onAction="#togglePasswordVisibility" text="👁" StackPane.alignment="CENTER_RIGHT">
                             <StackPane.margin>
-                                <Insets right="1.0"/>
+                                <Insets right="1.0" />
                             </StackPane.margin>
                             <font>
-                                <Font size="15.0"/>
+                                <Font size="15.0" />
                             </font>
                         </ToggleButton>
                     </StackPane>
-                    <Label fx:id="passwordStrengthMsg" text=" "/>
+                    <Label fx:id="passwordStrengthMsg" text=" " />
                 </VBox>
                 <StackPane prefHeight="42.0" prefWidth="100.0">
                     <TextField fx:id="confirmShow" promptText="Confirm your password">
