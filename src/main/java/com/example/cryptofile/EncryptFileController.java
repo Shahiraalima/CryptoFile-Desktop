@@ -1,7 +1,12 @@
 package com.example.cryptofile;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -9,9 +14,12 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class EncryptFileController {
 
@@ -29,7 +37,15 @@ public class EncryptFileController {
 
     @FXML private TextField outputFilePath;
 
+    @FXML private Button encryptBtn;
+    @FXML private Button resetBtn;
+    @FXML private Label statusLabel;
+
     private List<File> selectedFiles;
+    private ObservableList<File> fileList = FXCollections.observableArrayList();
+
+
+    //TODO: password must be of 8 characters regardless of strong or weak..show alert..
 
 
     @FXML
@@ -37,10 +53,8 @@ public class EncryptFileController {
         String password = passwordField.getText();
         String confirmPassword = confirmPasswordField.getText();
         Shared.setupPasswordStrengthListener(passwordField, requirementsLabel, passwordStrengthLabel);
-        checkPasswordMatch(password, confirmPassword);
 
         customListview();
-
     }
 
     // Remove all files from the list view
@@ -56,7 +70,7 @@ public class EncryptFileController {
 
     // Browse and select files to encrypt and add the files to the list view
     @FXML
-    public void handleBrowseFiles() {
+    public void handleBrowseFiles() { //TODO: add the drag and drop
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select Files to Encrypt");
         fileChooser.getExtensionFilters().addAll(
@@ -72,10 +86,12 @@ public class EncryptFileController {
         if (selectedFiles != null) {
             for (File file : selectedFiles) {
                 listView.getItems().add(file);
+
             }
             if(listView.getItems().size() > 1) {
                 removeAllBtn.setVisible(true);
             }
+            fileList.setAll(listView.getItems());
             updateListview();
             updateOutputPath();
 
@@ -102,6 +118,47 @@ public class EncryptFileController {
         }
     }
 
+    @FXML
+    public void handleEncryptButton() {
+        if(listView.getItems().isEmpty()) {
+            Label alertLabel = new Label("Please Select a File to Start Encryption");
+            Shared.showAlert(alertLabel);
+            return;
+        } else if (passwordField.getText().isEmpty()) {
+            Label alertLabel = new Label("Please Enter a Password to Start Encryption");
+            Shared.showAlert(alertLabel);
+            return;
+        } else if (confirmPasswordField.getText().isEmpty()) {
+            Label alertLabel = new Label("Please Confirm Your Password to Start Encryption");
+            Shared.showAlert(alertLabel);
+            return;
+        } else {
+            boolean check = checkPasswordMatch();
+            if(!check) return;
+        }
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("encProgressPopup.fxml"));
+            Parent popup = loader.load();
+
+            EncryptPopupController controller = loader.getController();
+            controller.loadListView(fileList);
+
+            Scene scene = new Scene(popup, 600, 500);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("Cryptofile");
+
+//            stage.setOnCloseRequest(event -> {
+//                event.consume();
+//                controller.handleCloseButton();
+//            });
+
+            stage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     // Reset all fields and clear the list view
     @FXML
@@ -117,6 +174,7 @@ public class EncryptFileController {
         passwordStrengthLabel.setText("");
         passwordMatchLabel.setText("");
     }
+
 
 
     // Update the list view height based on the number of items
@@ -142,24 +200,30 @@ public class EncryptFileController {
     }
 
     // Check if password and confirm password match
-    private void checkPasswordMatch(String password, String confirmPassword) {
+    private boolean checkPasswordMatch() {
+        AtomicBoolean allMatch = new AtomicBoolean(true);
         confirmPasswordField.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if(!newValue) {
+                String password = passwordField.getText();
+                String confirmPassword = confirmPasswordField.getText();
                 if(!confirmPassword.isEmpty()) {
-                    if(!confirmPassword.equals(password)) {
+                    if(!password.equals(confirmPassword)) {
                         passwordMatchLabel.setStyle("-fx-text-fill: red;");
                         passwordMatchLabel.setText("Passwords do not match");
+                        allMatch.set(false);
                     }
                 } else {
                     passwordMatchLabel.setText("");
+                    allMatch.set(true);
                 }
             }
         });
+        return allMatch.get();
     }
 
     // Customize the list view to show file name, size and remove button
     private void customListview() {
-        listView.setCellFactory(param -> new ListCell<>() {;
+        listView.setCellFactory(param -> new ListCell<>() {
             @Override
             protected void updateItem(File item, boolean empty) {
                 super.updateItem(item, empty);
@@ -167,7 +231,7 @@ public class EncryptFileController {
                     setGraphic(null);
                 } else {
                     Label labelName = new Label(item.getName());
-                    Label labelSize = new Label("(" + item.length()/1024 + " KB)");
+                    Label labelSize = new Label("(" + item.length()/1024 + " KB)"); //TODO: create function for file size
                     VBox fileInfoBox = new VBox(labelName, labelSize);
                     fileInfoBox.setAlignment(Pos.CENTER_LEFT);
 
@@ -193,9 +257,4 @@ public class EncryptFileController {
             }
         });
     }
-
-
-
-
-
 }

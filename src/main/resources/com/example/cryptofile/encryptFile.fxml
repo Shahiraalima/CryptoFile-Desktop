@@ -155,10 +155,9 @@
                         <Label fx:id="progressLabel" style="-fx-font-size: 12px; -fx-text-fill: #7f8c8d;" text="0%" />
                     </VBox>
 
-                    <HBox alignment="CENTER_LEFT" spacing="15">
-                        <Button fx:id="encryptBtn" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding:  15 40; -fx-background-radius:  10; -fx-cursor: hand; -fx-font-weight: bold;" text="🔒 Encrypt File" />
+                    <HBox alignment="CENTER_RIGHT" spacing="15">
+                        <Button fx:id="encryptBtn" onAction="#handleEncryptButton" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding:  15 40; -fx-background-radius:  10; -fx-cursor: hand; -fx-font-weight: bold;" text="🔒 Encrypt File" />
                         <Button fx:id="resetBtn" onAction="#handleResetButton" style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 15 30; -fx-background-radius:  10; -fx-cursor:  hand;" text="Reset" />
-                        <Label fx:id="statusLabel" style="-fx-font-size:  14px;" wrapText="true" />
                     </HBox>
                 </VBox>
 

@@ -1,0 +1,26 @@
+.greenTick.ikonli-font-icon {
+    -fx-icon-code: "mdi2c-check";
+    -fx-icon-size: 24;
+    -fx-icon-color: green;
+}
+
+
+.progressBar {
+    -fx-max-height: 10px;
+    -fx-pref-height: 10px;
+    -fx-min-height: 10px;
+}
+
+
+.fileIcon.ikonli-font-icon {
+    -fx-icon-code: "mdi2f-file";
+    -fx-icon-size: 28;
+}
+
+.deleteButton.ikonli-font-icon {
+    -fx-icon-code: "mdi2t-trash-can";
+    -fx-icon-size: 28;
+}
+
+
+

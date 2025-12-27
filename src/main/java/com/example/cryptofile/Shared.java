@@ -5,11 +5,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleButton;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
+import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.io.IOException;
 
@@ -23,6 +21,19 @@ public class Shared {
         stage.setTitle("CryptoFile");
         stage.setScene(scene);
         stage.show();
+    }
+
+    public static void showAlert (Label label) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Warning!");
+        alert.setHeaderText(label.getText());
+        alert.show();
+    }
+
+    public static FontIcon createIcon(String styleClass) {
+        FontIcon icon = new FontIcon();
+        icon.getStyleClass().add(styleClass);
+        return icon;
     }
 
     public static void setupPasswordStrengthListener(PasswordField passwordField, Label requirementsMsg, Label passwordStrengthMsg) {
