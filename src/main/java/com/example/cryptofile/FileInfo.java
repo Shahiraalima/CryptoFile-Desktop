@@ -8,13 +8,13 @@ public class FileInfo {
     private int user_id;
 
     private String og_file_name;
-    private String og_file_path;
     private Long og_file_size;
     private String og_file_type;
+    private String og_file_hash;
 
     private String encrypted_file_name;
-    private String encrypted_file_path;
     private Long encrypted_file_size;
+    private String encrypted_file_hash;
 
 
     private String status;
@@ -51,13 +51,6 @@ public class FileInfo {
         this.og_file_name = og_file_name;
     }
 
-    public String getOg_file_path() {
-        return og_file_path;
-    }
-
-    public void setOg_file_path(String og_file_path) {
-        this.og_file_path = og_file_path;
-    }
 
     public Long getOg_file_size() {
         return og_file_size;
@@ -83,20 +76,28 @@ public class FileInfo {
         this.encrypted_file_name = encrypted_file_name;
     }
 
-    public String getEncrypted_file_path() {
-        return encrypted_file_path;
-    }
-
-    public void setEncrypted_file_path(String encrypted_file_path) {
-        this.encrypted_file_path = encrypted_file_path;
-    }
-
     public Long getEncrypted_file_size() {
         return encrypted_file_size;
     }
 
     public void setEncrypted_file_size(Long encrypted_file_size) {
         this.encrypted_file_size = encrypted_file_size;
+    }
+
+    public String getOg_file_hash() {
+        return og_file_hash;
+    }
+
+    public void setOg_file_hash(String og_file_hash) {
+        this.og_file_hash = og_file_hash;
+    }
+
+    public String getEncrypted_file_hash() {
+        return encrypted_file_hash;
+    }
+
+    public void setEncrypted_file_hash(String encrypted_file_hash) {
+        this.encrypted_file_hash = encrypted_file_hash;
     }
 
     public String getStatus() {

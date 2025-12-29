@@ -67,9 +67,10 @@ public class EncryptPopupController {
                             String outputFile = inputFile + ".enc";
 
                             FileDAO fileDAO = new FileDAO();
-                            boolean fileEncrypted = fileDAO.checkFileExists(inputFile);
+                            String fileHash = fileDAO.getFileHash(file);
+                            String fileEncrypted = fileDAO.checkFileExists(fileHash, SessionManager.loggedInUser.getUser_id());
 
-                            if(fileEncrypted) {
+                            if(fileEncrypted.equals("encrypted")) {
                                 Platform.runLater(() -> {
                                     Label alertLabel = new Label("File " + file.getName() + " was already encrypted. Re-encrypting with new password. Old password will no longer work.");
                                     Shared.showAlert(alertLabel);
@@ -100,23 +101,24 @@ public class EncryptPopupController {
                                 }
                             });
 
+                            String fileHashAfter = fileDAO.getFileHash(new File(outputFile));
 
                             // After encryption, save file info to database
                             FileInfo fileInfo = new FileInfo();
                             fileInfo.setUser_id(SessionManager.loggedInUser.getUser_id());
                             fileInfo.setOg_file_name(file.getName());
-                            fileInfo.setOg_file_path(inputFile);
-                            fileInfo.setOg_file_size((long) inputFile.length());
+                            fileInfo.setOg_file_size((long) file.length());
                             fileInfo.setOg_file_type(inputFile.substring(inputFile.lastIndexOf(".") + 1));
+                            fileInfo.setOg_file_hash(fileHash);
                             fileInfo.setEncrypted_file_name(outputFile.substring(outputFile.lastIndexOf(File.separator) + 1));
-                            fileInfo.setEncrypted_file_path(outputFile);
-                            fileInfo.setEncrypted_file_size((long) outputFile.length());
+                            fileInfo.setEncrypted_file_size((long) new File(outputFile).length());
+                            fileInfo.setEncrypted_file_hash(fileHashAfter);
 
-                            if(fileEncrypted) {
-                                fileDAO.updateForRe_encryption(fileInfo);
+                            if(fileEncrypted.equals("not_found")) {
+                                fileDAO.insertFile(fileInfo);
                             }
                             else {
-                                fileDAO.insertFile(fileInfo);
+                                fileDAO.updateForReencryption(fileInfo);
                             }
 
                             // Calculate time taken for encryption and update label

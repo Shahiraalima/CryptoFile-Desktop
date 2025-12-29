@@ -64,6 +64,18 @@ public class DecryptPopupController {
                             String inputFile = file.getAbsolutePath();
                             String outputFile = inputFile + ".dec";
 
+                            FileDAO fileDAO = new FileDAO();
+                            String fileHash = fileDAO.getFileHash(file);
+                            boolean fileEncrypted = fileDAO.validityEncryption(fileHash, SessionManager.loggedInUser.getUser_id());
+                            if(!fileEncrypted) {
+                                Platform.runLater(() -> {
+                                    Label alertLabel = new Label("File " + file.getName() + " is not encrypted by this application");
+                                    Shared.showAlert(alertLabel);
+                                });
+                                latch.countDown();
+                                return;
+                            }
+
                             long startTime = System.nanoTime();
 
                             EncryptAndDecryptUtil.decryptFile(inputFile, outputFile, password, progress -> {
@@ -87,6 +99,14 @@ public class DecryptPopupController {
                                     });
                                 }
                             });
+
+                            FileInfo fileInfo = new FileInfo();
+                            fileInfo.setUser_id(SessionManager.loggedInUser.getUser_id());
+                            fileInfo.setOg_file_hash(fileHash);
+                            fileInfo.setEncrypted_file_name(outputFile.substring(outputFile.lastIndexOf(File.separator) + 1));
+                            fileInfo.setEncrypted_file_size((long) new File(outputFile).length());
+
+                            fileDAO.updateForDecryption(fileInfo);
 
                             long endTime = System.nanoTime();
                             long millisecondsTaken = (endTime - startTime) / 1_000_000;
