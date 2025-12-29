@@ -28,8 +28,10 @@ public class UserDAO {
                 String user = rs.getString("username");
                 String pass = rs.getString("password");
                 String role = rs.getString("roles");
+                int user_id = rs.getInt("user_id");
 
                 UserInfo currentUser = new UserInfo();
+                currentUser.setUser_id(user_id);
                 currentUser.setUsername(user);
                 currentUser.setRole(role);
                 currentUser.setPassword(pass);

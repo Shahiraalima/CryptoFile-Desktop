@@ -44,6 +44,7 @@ public class EncryptFileController {
 
     private List<File> selectedFiles;
     private ObservableList<File> fileList = FXCollections.observableArrayList();
+    private ObservableList<FileInfo> fileInfoList = FXCollections.observableArrayList();
 
 
     //TODO: password must be of 8 characters regardless of strong or weak..show alert..
@@ -69,7 +70,6 @@ public class EncryptFileController {
 
         outputFilePath.setOnAction(event -> EncryptAndDecryptUtil.handleBrowseOutputPath(listView, browseBox, removeAllBtn, outputFilePath));
     }
-
 
     @FXML
     public void handleEncryptButton() {

@@ -17,6 +17,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+
 public class EncryptPopupController {
     @FXML private ListView<File> listView;
     @FXML private Button closeButton;
@@ -32,6 +33,7 @@ public class EncryptPopupController {
     private final Map<File, ProgressBar> progressBarMap = new HashMap<>();
     private final Map<File, Label> greenTickMap = new HashMap<>();
     private final Map<File, Label> timeLabelMap = new HashMap<>();
+
 
 
     // Method to load data into the ListView and start encryption
@@ -64,6 +66,16 @@ public class EncryptPopupController {
                             String inputFile = file.getAbsolutePath();
                             String outputFile = inputFile + ".enc";
 
+                            FileDAO fileDAO = new FileDAO();
+                            boolean fileEncrypted = fileDAO.checkFileExists(inputFile);
+
+                            if(fileEncrypted) {
+                                Platform.runLater(() -> {
+                                    Label alertLabel = new Label("File " + file.getName() + " was already encrypted. Re-encrypting with new password. Old password will no longer work.");
+                                    Shared.showAlert(alertLabel);
+                                });
+                            }
+
                             long startTime = System.nanoTime();
 
                             EncryptAndDecryptUtil.encryptFile(inputFile, outputFile, password, progress -> {
@@ -88,9 +100,29 @@ public class EncryptPopupController {
                                 }
                             });
 
+
+                            // After encryption, save file info to database
+                            FileInfo fileInfo = new FileInfo();
+                            fileInfo.setUser_id(SessionManager.loggedInUser.getUser_id());
+                            fileInfo.setOg_file_name(file.getName());
+                            fileInfo.setOg_file_path(inputFile);
+                            fileInfo.setOg_file_size((long) inputFile.length());
+                            fileInfo.setOg_file_type(inputFile.substring(inputFile.lastIndexOf(".") + 1));
+                            fileInfo.setEncrypted_file_name(outputFile.substring(outputFile.lastIndexOf(File.separator) + 1));
+                            fileInfo.setEncrypted_file_path(outputFile);
+                            fileInfo.setEncrypted_file_size((long) outputFile.length());
+
+                            if(fileEncrypted) {
+                                fileDAO.updateForRe_encryption(fileInfo);
+                            }
+                            else {
+                                fileDAO.insertFile(fileInfo);
+                            }
+
+                            // Calculate time taken for encryption and update label
                             long endTime = System.nanoTime();
                             long millisecondsTaken = (endTime - startTime) / 1_000_000;
-                            String timeText = String.format("Time: %.2f ms", (double) millisecondsTaken); // TODO: improve time format
+                            String timeText = String.format("Time: %.2f ms", (double) millisecondsTaken);// TODO: improve time format
 
                             // Update time label on the JavaFX Application Thread
                             Platform.runLater(() -> {
