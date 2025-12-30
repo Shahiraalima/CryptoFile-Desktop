@@ -61,7 +61,7 @@ public class DecryptPopupController {
                         logInfo.setUser_id(SessionManager.loggedInUser.getUser_id());
                         logInfo.setFile_name(file.getName());
                         logInfo.setFile_size(file.length());
-                        logInfo.setAction("decrypt");
+                        logInfo.setAction("Decrypt");
 
                         boolean flag = false;
                         try {

@@ -1,0 +1,101 @@
+.table-view {
+    -fx-background-color: transparent;
+    -fx-border-color: #80808050;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}
+
+.table-view .column-header,
+.table-view .table-column {
+    -fx-border-width: 0;
+}
+
+.table-view .table-cell {
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: #80808050;
+}
+
+.table-view .column-header {
+    -fx-background-color: #80808012;
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: #80808050;
+    -fx-font-size: 15;
+}
+
+.table-view .filler {
+    -fx-background-color: #80808012;
+    -fx-border-width: 0;
+}
+
+.table-view .column-header-background .filler {
+    -fx-background-color: #80808012;
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: #80808050;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #80808012;
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: #80808050;
+    -fx-border-radius: 8 8 0 0;
+    -fx-background-radius: 8 8 0 0;
+}
+
+/* Icons for different statuses */
+.successIcon.ikonli-font-icon {
+    -fx-icon-code: "fth-check-circle";
+    -fx-icon-size: 24;
+    -fx-icon-color: green;
+}
+
+.cancelledIcon.ikonli-font-icon {
+    -fx-icon-code: "enty-circle-with-cross";
+    -fx-icon-size: 24;
+    -fx-icon-color: red;
+}
+
+.failedIcon.ikonli-font-icon {
+    -fx-icon-code: "bx-error-circle";
+    -fx-icon-size: 25;
+    -fx-icon-color: orange;
+}
+
+/* icons for the statistics section */
+.operationsIcon.ikonli-font-icon {
+    -fx-icon-code: "unil-chart-bar";
+    -fx-icon-size: 26;
+    -fx-icon-color: teal;
+}
+
+.encryptedIcon.ikonli-font-icon {
+    -fx-icon-code: "sil-lock";
+    -fx-icon-size: 26;
+    -fx-icon-color: green;
+}
+
+.decryptedIcon.ikonli-font-icon {
+    -fx-icon-code: "sil-lock-open";
+    -fx-icon-size: 26;
+    -fx-icon-color: blue;
+}
+
+.successRateIcon.ikonli-font-icon {
+    -fx-icon-code: "fth-check-circle";
+    -fx-icon-size: 26;
+    -fx-icon-color: purple;
+}
+
+/* operation column icons */
+.encryptIcon.ikonli-font-icon {
+    -fx-icon-code: "sil-lock";
+    -fx-icon-size: 15;
+    -fx-icon-color: green;
+}
+
+.decryptIcon.ikonli-font-icon {
+    -fx-icon-code: "sil-lock-open";
+    -fx-icon-size: 15;
+    -fx-icon-color: blue;
+}
+
+

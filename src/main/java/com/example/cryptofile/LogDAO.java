@@ -191,6 +191,32 @@ public class LogDAO {
         }
     }
 
+    public static List<LogInfo> getTodayLogs(int userId) throws Exception{
+        List<LogInfo> list = new ArrayList<>();
+
+        String query = "SELECT * FROM activity_logs WHERE user_id = ? AND DATE(timestamp) = CURDATE() ORDER BY timestamp DESC";
+
+        try(Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement statement = conn.prepareStatement(query)) {
+            statement.setInt(1, userId);
+
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                LogInfo logInfo = new LogInfo();
+                logInfo.setLog_id(resultSet.getInt("log_id"));
+                logInfo.setUser_id(resultSet.getInt("user_id"));
+                logInfo.setFile_id(resultSet.getInt("file_id"));
+                logInfo.setAction(resultSet.getString("action"));
+                logInfo.setStatus(resultSet.getString("status"));
+                logInfo.setFile_name(resultSet.getString("file_name"));
+                logInfo.setFile_size(resultSet.getLong("file_size"));
+                logInfo.setTimestamp(resultSet.getTimestamp("timestamp").toLocalDateTime());
+                list.add(logInfo);
+            }
+        }
+        return list;
+    }
+
 
 
 }

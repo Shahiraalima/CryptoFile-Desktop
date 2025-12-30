@@ -4,7 +4,6 @@
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
@@ -12,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="700.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cryptofile.UserHomeController">
+<BorderPane prefHeight="700.0" prefWidth="950.0" stylesheets="@styles/userHome.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cryptofile.UserHomeController">
     <center>
         <StackPane fx:id="contentPane">
             <ScrollPane fitToHeight="true" fitToWidth="true" style="-fx-background-color: transparent;">
@@ -57,60 +56,11 @@
                     </VBox>
                     <VBox spacing="15">
                         <HBox alignment="CENTER_LEFT">
-                            <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Recent Activity" />
+                            <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Today's Activity" />
                             <Region HBox.hgrow="ALWAYS" />
                             <Hyperlink fx:id="activityLogsLink" onAction="#loadActivityLogs" style="-fx-text-fill: #3498db; -fx-font-size: 13px;" text="View All" />
                         </HBox>
-                        <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 12;">
-                            <HBox alignment="CENTER_LEFT" spacing="15" style="-fx-padding: 10 0;">
-                                <Label style="-fx-font-size: 24px;" text="🔒" />
-                                <VBox spacing="3" HBox.hgrow="ALWAYS">
-                                    <Label text="document.pdf encrypted successfully">
-                                        <font>
-                                            <Font size="14.0" />
-                                        </font></Label>
-                                    <Label style="-fx-font-size: 12px; -fx-text-fill: #95a5a6;" text="2 hours ago" />
-                                </VBox>
-                                <Label text="Success" />
-                            </HBox>
-                            <Separator />
-                            <HBox alignment="CENTER_LEFT" spacing="15" style="-fx-padding: 10 0;">
-                                <Label style="-fx-font-size: 24px;" text="🔓" />
-                                <VBox spacing="3" HBox.hgrow="ALWAYS">
-                                    <Label text="report.xlsx decrypted">
-                                        <font>
-                                            <Font size="14.0" />
-                                        </font></Label>
-                                    <Label style="-fx-font-size: 12px; -fx-text-fill: #95a5a6;" text="5 hours ago" />
-                                </VBox>
-                                <Label text="Success" />
-                            </HBox>
-                            <Separator />
-                            <HBox alignment="CENTER_LEFT" spacing="15" style="-fx-padding: 10 0;">
-                                <Label style="-fx-font-size: 24px;" text="🔒" />
-                                <VBox spacing="3" HBox.hgrow="ALWAYS">
-                                    <Label text="image.png encrypted successfully">
-                                        <font>
-                                            <Font size="14.0" />
-                                        </font></Label>
-                                    <Label style="-fx-font-size: 12px; -fx-text-fill: #95a5a6;" text="Yesterday" />
-                                </VBox>
-                                <Label text="Success" />
-                            </HBox>
-                            <Separator />
-                            <HBox alignment="CENTER_LEFT" spacing="15" style="-fx-padding: 10 0;">
-                                <Label style="-fx-font-size: 24px;" text="📁" />
-                                <VBox spacing="3" HBox.hgrow="ALWAYS">
-                                    <Label text="New file added: project.zip">
-                                        <font>
-                                            <Font size="14.0" />
-                                        </font></Label>
-                                    <Label style="-fx-font-size: 12px; -fx-text-fill: #95a5a6;" text="2 days ago" />
-                                </VBox>
-                                <Label text="Info" />
-                            </HBox>
-
-                        </VBox>
+                        <VBox fx:id="activityLogsBox" spacing="10" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 12;" />
                     </VBox>
 
                 </VBox>

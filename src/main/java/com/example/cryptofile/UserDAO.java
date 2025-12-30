@@ -8,9 +8,9 @@ public class UserDAO {
     public UserDAO() {
         try {
             Connection conn = DatabaseConnection.getConnection();
-            System.out.print("Connected to database successfully");
+            System.out.print("Connected to database successfully.\n");
         } catch (SQLException e) {
-            throw new RuntimeException("Failed to connect to database", e);
+            throw new RuntimeException("Failed to connect to database.\n", e);
         }
     }
 

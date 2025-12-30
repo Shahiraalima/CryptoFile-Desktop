@@ -1,12 +1,17 @@
 package com.example.cryptofile;
 
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
+
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -18,6 +23,11 @@ public class UserActivityLogsController {
     @FXML private Label encryptedCountLabel;
     @FXML private Label decryptedCountLabel;
     @FXML private Label successRateLabel;
+
+    @FXML private Label totalOperationsIcon;
+    @FXML private Label encryptedCountIcon;
+    @FXML private Label decryptedCountIcon;
+    @FXML private Label successRateIcon;
 
     @FXML private TableView<LogInfo> activityTable;
     @FXML private TableColumn<LogInfo, String> statusColumn;
@@ -31,16 +41,19 @@ public class UserActivityLogsController {
 
     @FXML
     public void initialize() {
+        activityTable.getStyleClass().add("table-view");
+        activityTable.setFixedCellSize(50);
+
         setupTableColumns();
         loadActivityLogs();
         loadStatistics();
     }
 
     private void setupTableColumns() {
+
         statusColumn.setCellValueFactory(cellData -> {
             String status = cellData.getValue().getStatus();
-            String icon = "success".equalsIgnoreCase(status) ? "✓" : "✗";
-            return new SimpleStringProperty(icon);
+            return new SimpleStringProperty(status);
         });
         statusColumn.setStyle("-fx-alignment: CENTER;");
 
@@ -52,7 +65,23 @@ public class UserActivityLogsController {
                     setText(null);
                     setStyle("");
                 } else {
-                    setText(item);
+                    Label label = new Label();
+                    switch (item) {
+                        case "Success":
+                            label.setGraphic(Shared.createIcon("successIcon"));
+                            break;
+                        case "Failed":
+                            label.setGraphic(Shared.createIcon("failedIcon"));
+                            break;
+                        case "Cancelled":
+                            label.setGraphic(Shared.createIcon("cancelledIcon"));
+                            break;
+                        default:
+                            label.setGraphic(null);
+                            break;
+                    }
+                    setText(null);
+                    setGraphic(label);
                 }
             }
         });
@@ -62,11 +91,26 @@ public class UserActivityLogsController {
                 new SimpleStringProperty(cellData.getValue().getFile_name())
         );
         fileNameColumn.setStyle("-fx-alignment: CENTER;");
+        fileNameColumn.setCellFactory(column -> new TableCell<LogInfo, String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setStyle("");
+                } else {
+                    Label label = new Label(item);
+                    label.setStyle("-fx-font-size: 16;");
+                    setText(null);
+                    setGraphic(label);
+                }
+            }
+        });
+
 
         operationColumn.setCellValueFactory(cellData -> {
             String operation = cellData.getValue().getAction();
-            String display = formatOperation(operation);
-            return new SimpleStringProperty(display);
+            return new SimpleStringProperty(operation);
         });
         operationColumn.setStyle("-fx-alignment: CENTER;");
         operationColumn.setCellFactory(column -> new TableCell<LogInfo, String>() {
@@ -77,7 +121,26 @@ public class UserActivityLogsController {
                     setText(null);
                     setStyle("");
                 } else {
-                    setText(item);
+                    Node icon = null;
+                    switch (item) {
+                        case "Encrypt":
+                            icon= Shared.createIcon("encryptIcon");
+                            break;
+                        case "Decrypt":
+                            icon= Shared.createIcon("decryptIcon");
+                            break;
+                        default:
+                            icon= null;
+                            break;
+                    }
+                    Label label = new Label(item);
+                    label.setStyle("-fx-font-size: 16;");
+                    HBox hbox = new HBox(icon, label);
+                    hbox.alignmentProperty().setValue(Pos.CENTER);
+                    hbox.setStyle("-fx-spacing: 3px; -fx-background-color: #0000ff15; -fx-background-radius: 20; -fx-max-height: 17px; -fx-max-width: 80px;");
+
+                    setText(null);
+                    setGraphic(hbox);
                 }
             }
         });
@@ -88,6 +151,21 @@ public class UserActivityLogsController {
                     return new SimpleStringProperty(formattedSize);
                 });
         sizeColumn.setStyle("-fx-alignment: CENTER;");
+        sizeColumn.setCellFactory(column -> new TableCell<LogInfo, String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setStyle("");
+                } else {
+                    Label label = new Label(item);
+                    label.setStyle("-fx-font-size: 16;");
+                    setText(null);
+                    setGraphic(label);
+                }
+            }
+        });
 
 
         dateTimeColumn. setCellValueFactory(cellData -> {
@@ -96,10 +174,25 @@ public class UserActivityLogsController {
             return new SimpleStringProperty(formatted);
         });
         dateTimeColumn.setStyle("-fx-alignment: CENTER;");
+        dateTimeColumn.setCellFactory(column -> new TableCell<LogInfo, String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setStyle("");
+                } else {
+                    Label label = new Label(item);
+                    label.setStyle("-fx-font-size: 16;");
+                    setText(null);
+                    setGraphic(label);
+                }
+            }
+        });
 
-        // Result column
+
         resultColumn.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().getStatus().toUpperCase())
+                new SimpleStringProperty(cellData.getValue().getStatus())
         );
         resultColumn.setStyle("-fx-alignment: CENTER;");
         resultColumn.setCellFactory(column -> new TableCell<LogInfo, String>() {
@@ -110,7 +203,26 @@ public class UserActivityLogsController {
                     setText(null);
                     setStyle("");
                 } else {
-                    setText(item);
+                    Label label = new Label(item);
+                    label.setStyle("-fx-font-size: 16;");
+                    HBox hbox = new HBox(label);
+                    hbox.setAlignment(Pos.CENTER);
+                    switch (item) {
+                        case "Success":
+                            hbox.setStyle("-fx-background-color: #00800014; -fx-background-radius: 20; -fx-max-height: 17px; -fx-max-width: 85px;");
+                            break;
+                        case "Failed":
+                            hbox.setStyle("-fx-background-color: #ffa50014; -fx-background-radius: 20; -fx-max-height: 17px; -fx-max-width: 85px;");
+                            break;
+                        case "Cancelled":
+                            hbox.setStyle("-fx-background-color: #ff000011; -fx-background-radius: 20; -fx-max-height: 17px; -fx-max-width: 85px;");
+                            break;
+                        default:
+                            label.setGraphic(null);
+                            break;
+                    }
+                    setText(null);
+                    setGraphic(hbox);
                 }
             }
         });
@@ -131,45 +243,44 @@ public class UserActivityLogsController {
         loadTask.setOnSucceeded(event -> {
             ObservableList<LogInfo> logs = loadTask.getValue();
             activityTable.setItems(logs);
+            activityTable.prefHeightProperty().bind(Bindings.min(activityTable.fixedCellSizeProperty().multiply(Bindings.size(activityTable.getItems()).add(1.01)), 600.0));
             System.out.println("✓ Loaded " + logs.size() + " activity logs");
         });
 
         loadTask.setOnFailed(event -> {
-            showError("Failed to load activity logs");
             event.getSource().getException().printStackTrace();
         });
 
         new Thread(loadTask, "load-logs-thread").start();
     }
 
-    /**
-     * Load statistics from database
-     */
+
     private void loadStatistics() {
         Task<Void> statsTask = new Task<>() {
             @Override
             protected Void call() throws Exception {
                 try {
-                    // Get total operations count
                     int totalOperations = LogDAO.getTotalLogsCountByUserID(SessionManager.loggedInUser.getUser_id());
 
-                    // Get encrypted files count
                     int encryptedCount = LogDAO.encryptedLogsCountByUserID(SessionManager.loggedInUser.getUser_id());
 
-                    // Get decrypted files count
                     int decryptedCount = LogDAO.decryptedLogsCountByUserID(SessionManager.loggedInUser.getUser_id());
 
-                    // Calculate success rate
                     double successRate = LogDAO.successRateByUserID(SessionManager.loggedInUser.getUser_id());
 
-                    // Update UI on JavaFX thread
                     Platform. runLater(() -> {
                         totalOperationsLabel.setText(String.valueOf(totalOperations));
-                        encryptedCountLabel.setText(String.valueOf(encryptedCount));
-                        decryptedCountLabel.setText(String.valueOf(decryptedCount));
-                        successRateLabel. setText(String.format("%.1f%%", successRate));
+                        totalOperationsIcon.setGraphic(Shared.createIcon("operationsIcon"));
 
-                        // Add animation effect (optional)
+                        encryptedCountLabel.setText(String.valueOf(encryptedCount));
+                        encryptedCountIcon.setGraphic(Shared.createIcon("encryptedIcon"));
+
+                        decryptedCountLabel.setText(String.valueOf(decryptedCount));
+                        decryptedCountIcon.setGraphic(Shared.createIcon("decryptedIcon"));
+
+                        successRateLabel.setText(String.format("%.1f%%", successRate));
+                        successRateIcon.setGraphic(Shared.createIcon("successRateIcon"));
+
                         animateLabel(totalOperationsLabel);
                         animateLabel(encryptedCountLabel);
                         animateLabel(decryptedCountLabel);
@@ -185,7 +296,6 @@ public class UserActivityLogsController {
         };
 
         statsTask.setOnFailed(event -> {
-            showError("Failed to load statistics");
             event.getSource().getException().printStackTrace();
         });
 
@@ -215,20 +325,5 @@ public class UserActivityLogsController {
         ft.setFromValue(0.0);
         ft.setToValue(1.0);
         ft.play();
-    }
-
-
-
-    /**
-     * Show error alert
-     */
-    private void showError(String message) {
-        Platform.runLater(() -> {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText(message);
-            alert.showAndWait();
-        });
     }
 }

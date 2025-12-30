@@ -16,8 +16,6 @@ public class UserNavigationController {
     @FXML
     private Label usernameLabel;
 
-    private String currentUser;
-
     @FXML
     public void initialize() {
         usernameLabel.setText(SessionManager.loggedInUser.getUsername());
@@ -53,11 +51,6 @@ public class UserNavigationController {
     @FXML
     public void loadActivityLogs() {
         loadView("userActivityLogs.fxml");
-    }
-
-    @FXML
-    public void loadMyFiles() {
-        loadView("userMyFiles.fxml");
     }
 
     @FXML

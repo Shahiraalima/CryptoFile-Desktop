@@ -63,7 +63,7 @@ public class EncryptPopupController {
                         logInfo.setUser_id(SessionManager.loggedInUser.getUser_id());
                         logInfo.setFile_name(file.getName());
                         logInfo.setFile_size(file.length());
-                        logInfo.setAction("encrypt");
+                        logInfo.setAction("Encrypt");
 
 
                         boolean flag = false;

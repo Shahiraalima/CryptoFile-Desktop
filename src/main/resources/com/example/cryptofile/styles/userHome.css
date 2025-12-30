@@ -1,0 +1,11 @@
+.encryptIcon.ikonli-font-icon {
+    -fx-icon-code: "sil-lock";
+    -fx-icon-size: 15;
+    -fx-icon-color: green;
+}
+
+.decryptIcon.ikonli-font-icon {
+    -fx-icon-code: "sil-lock-open";
+    -fx-icon-size: 15;
+    -fx-icon-color: blue;
+}

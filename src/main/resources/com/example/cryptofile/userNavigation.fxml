@@ -64,12 +64,6 @@
                     </graphic>
                 </Button>
 
-                <Button alignment="CENTER_LEFT" maxWidth="Infinity" onAction="#loadMyFiles" text="My Files">
-                    <graphic>
-                        <Label style="-fx-font-size: 16px;" text="📁" />
-                    </graphic>
-                </Button>
-
                 <Button alignment="CENTER_LEFT" maxWidth="Infinity" onAction="#loadProfile" text="Profile Settings">
                     <graphic>
                         <Label style="-fx-font-size: 16px;" text="👤" />
